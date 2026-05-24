@@ -1,0 +1,97 @@
+'use client';
+
+import { DashboardCloseIcon } from '@/assets/images/svg/DashboardClose';
+import { DashboardTrashIcon } from '@/assets/images/svg/DashboardTrash';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+interface DeleteDiscountCodeModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+  isLoading?: boolean;
+}
+
+const DeleteDiscountCodeModal = ({
+  open,
+  onOpenChange,
+  onConfirm,
+  isLoading = false,
+}: DeleteDiscountCodeModalProps) => {
+  const handleClose = () => {
+    if (!isLoading) {
+      onOpenChange(false);
+    }
+  };
+
+  const handleConfirm = () => {
+    if (!isLoading) {
+      onConfirm();
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={open => !isLoading && onOpenChange(open)}>
+      <DialogContent
+        className="bg-surfacePrimary  rounded-lg p-0 w-[400px]"
+        showCloseButton={false}
+      >
+        <DialogClose asChild>
+          <button
+            aria-label="بستن"
+            className="absolute top-4 left-4 p-1 hover:opacity-70 transition-opacity cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading}
+            onClick={handleClose}
+          >
+            <DashboardCloseIcon />
+          </button>
+        </DialogClose>
+
+        <div className="flex flex-col items-start px-6 pt-[32px] pb-6 ">
+          <div className="w-16 h-16  rounded-full bg-error-600 border border-8 border-error-900 flex items-center justify-center">
+            <DashboardTrashIcon />
+          </div>
+          <div className="mt-3 gap-4 flex flex-col items-start">
+            <DialogTitle className="text-lg-demibold text-gray-25 ">
+              حذف کد
+            </DialogTitle>
+
+            <p className="text-sm-regular text-textSecondary  leading-relaxed">
+              آیا مطمئن هستید که می‌خواهید این کد تخفیف را حذف کنید؟ این عمل
+              قابل لغو نیست.
+            </p>
+          </div>
+
+          <div className="flex flex-row gap-3 w-full mt-8">
+            <Button
+              className="flex-1"
+              disabled={isLoading}
+              size="lg"
+              variant="secondary"
+              onClick={handleClose}
+            >
+              لغو
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={isLoading}
+              loading={isLoading}
+              size="lg"
+              variant="destructive"
+              onClick={handleConfirm}
+            >
+              حذف
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default DeleteDiscountCodeModal;
