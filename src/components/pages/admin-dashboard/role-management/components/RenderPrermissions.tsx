@@ -1,29 +1,31 @@
 import type { GetCustomPermissionOutput } from '@/apis';
 import { Checkbox } from '@/components/ui/checkbox';
-import type { Control } from 'react-hook-form';
+import type { Control, FieldValues, Path } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 
-interface RenderPermissionsProps {
+interface RenderPermissionsProps<TFieldValues extends FieldValues> {
   permissions?: GetCustomPermissionOutput[];
-  control: Control<any>;
-  name: string;
+  control: Control<TFieldValues>;
+  name: Path<TFieldValues>;
 }
 
-const RenderPermissions = ({
+const RenderPermissions = <TFieldValues extends FieldValues>({
   permissions,
   control,
   name,
-}: RenderPermissionsProps) => {
+}: RenderPermissionsProps<TFieldValues>) => {
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { value, onChange } }) => {
+        const selectedPermissions = (value ?? []) as string[];
+
         const handleChange = (permission: string) => {
-          if (value?.includes(permission)) {
-            onChange(value.filter((item: string) => item !== permission));
+          if (selectedPermissions.includes(permission)) {
+            onChange(selectedPermissions.filter(item => item !== permission));
           } else {
-            onChange([...(value || []), permission]);
+            onChange([...selectedPermissions, permission]);
           }
         };
 
@@ -33,7 +35,7 @@ const RenderPermissions = ({
               {permissions?.map(permission => (
                 <Checkbox
                   key={(permission.title as string) + permission.id}
-                  checked={value?.includes(permission.title)}
+                  checked={selectedPermissions.includes(permission.title!)}
                   label={permission.persianTitle as string}
                   labelClassName="text-sm-medium"
                   onCheckedChange={() => handleChange(permission.title!)}
