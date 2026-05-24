@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/chart/chart';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -28,6 +29,7 @@ import ReactQuery from '@/configs/react_query_keys';
 import numberSeprator from '@/utils/numberSeprator';
 import { rialToTomanText } from '@/utils/numberTopersian';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -190,7 +192,20 @@ const WalletStock = ({ walletData }: WalletStockProps) => {
                 <InvestIcon /> <span className="font-semibold">واریز</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="p-7 text-right" dir="rtl">
+            <DialogContent
+              className="p-7 text-right"
+              dir="rtl"
+              showCloseButton={false}
+            >
+              <DialogClose className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-full transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 focus:ring-offset-background">
+                <Image
+                  alt="بستن"
+                  height={32}
+                  src="/images/icons/cards-modal-close.png"
+                  width={32}
+                />
+                <span className="sr-only">بستن</span>
+              </DialogClose>
               <DialogHeader className="flex flex-col gap-4 items-end text-right">
                 <DialogTitle>واریز</DialogTitle>
                 <DialogDescription>

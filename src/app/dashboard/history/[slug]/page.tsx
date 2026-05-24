@@ -1,14 +1,7 @@
-import HistorySingle from '@/components/pages/user-dashboard/history/singlePage';
+import History from '@/components/pages/user-dashboard/history';
 
-interface HistorySinglePageProps {
-  params: Promise<{
-    slug: string;
-  }>;
-}
-
-const HistorySinglePage = async ({ params }: HistorySinglePageProps) => {
-  const { slug } = await params;
-  return <HistorySingle id={slug} />;
+const HistorySinglePage = () => {
+  return <History />;
 };
 
 export default HistorySinglePage;
